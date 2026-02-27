@@ -1,0 +1,257 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(-45deg, #1d2b64, #f8cdda, #1d2b64);
+    background-size: 400% 400%;
+    animation: gradientBG 12s ease infinite;
+    color: white;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    padding: 25px;
+    text-align: center;
+}
+
+header h1 {
+    margin-bottom: 15px;
+    font-size: 2.2rem;
+    letter-spacing: 2px;
+}
+
+/* =========================
+   SEARCH INPUT
+========================= */
+
+input {
+    padding: 12px 20px;
+    width: 280px;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+input:focus {
+    box-shadow: 0 0 15px rgba(255,255,255,0.6);
+}
+
+/* =========================
+   GRID
+========================= */
+
+.pokemon-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 25px;
+    padding: 30px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+    position: relative;
+    overflow: hidden;
+
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+    animation: fadeIn 0.5s ease-in;
+
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+
+     transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.card img {
+    width: 100px;
+    height: 100px;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+/* Shine Effect */
+.card::before {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.4),
+        transparent
+    );
+    transform: rotate(25deg);
+    transition: 0.6s;
+}
+
+.card:hover::before {
+    top: 100%;
+    left: 100%;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(8px);
+    animation: fadeBackdrop 0.3s ease forwards;
+}
+
+@keyframes fadeBackdrop {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.hidden {
+    display: none;
+}
+
+.modal-content {
+    position: relative;
+
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(20px);
+
+    padding: 30px;
+    border-radius: 25px;
+    width: 360px;
+    max-width: 90%;
+
+    text-align: center;
+
+    animation: modalEnter 0.4s cubic-bezier(.17,.67,.83,.67);
+
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+#closeModal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* Modal Animation */
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stat {
+    margin: 10px 0;
+    text-align: left;
+    font-size: 12px;
+}
+
+.bar {
+    background: rgba(255,255,255,0.3);
+    height: 8px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.fill {
+    height: 100%;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #00ffcc, #ff00ff);
+    animation: grow 1s ease forwards;
+    width: 0;
+}
+
+@keyframes grow {
+    from { width: 0; }
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+/*Borda neon*/
+
+.card::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 22px;
+    background: linear-gradient(45deg, #00ffff, #ff00ff, #00ffff);
+    z-index: -1;
+    filter: blur(8px);
+    opacity: 0;
+    transition: 0.4s;
+}
+
+.card:hover::after {
+    opacity: 1;
+}

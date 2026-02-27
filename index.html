@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+    <h1>Pokedéx</h1>
+    <input type="text" id="searchInput" placeholder="Buscar Pokémon">
+</header>
+
+<main>
+    <div id="pokemonList" class="pokemon-list"></div>
+</main>
+
+<div id="modal" class="modal hidden">
+    <div class="modal-content">
+        <span id="closeModal">&times;</span>
+        <h2 id="modalName"></h2>
+        <img id="modalImage">
+        <p id="modalNumber"></p>
+        <p id="modalType"></p>
+    </div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+<footer>
+  <p>© 2026 Pokédex do Cairoba • Feito com JavaScript</p>
+</footer>
+</body>
+</html>
