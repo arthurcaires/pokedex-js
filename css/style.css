@@ -13,9 +13,7 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* =========================
-   HEADER
-========================= */
+/* header*/
 
 header {
     padding: 25px;
@@ -28,9 +26,7 @@ header h1 {
     letter-spacing: 2px;
 }
 
-/* =========================
-   SEARCH INPUT
-========================= */
+/* search input */
 
 input {
     padding: 12px 20px;
@@ -46,9 +42,7 @@ input:focus {
     box-shadow: 0 0 15px rgba(255,255,255,0.6);
 }
 
-/* =========================
-   GRID
-========================= */
+/* grid */
 
 .pokemon-list {
     display: grid;
@@ -57,9 +51,7 @@ input:focus {
     padding: 30px;
 }
 
-/* =========================
-   CARD
-========================= */
+/* cards */
 
 .card {
     position: relative;
@@ -93,7 +85,7 @@ input:focus {
     box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 }
 
-/* Shine Effect */
+/* brilhin */
 .card::before {
     content: "";
     position: absolute;
@@ -116,9 +108,7 @@ input:focus {
     left: 100%;
 }
 
-/* =========================
-   ANIMATIONS
-========================= */
+/* animações */
 
 @keyframes fadeIn {
     from {
@@ -131,9 +121,7 @@ input:focus {
     }
 }
 
-/* =========================
-   MODAL
-========================= */
+/* modal */
 
 .modal {
     position: fixed;
@@ -198,9 +186,7 @@ input:focus {
     }
 }
 
-/* =========================
-   STATS
-========================= */
+/* stats*/
 
 .stat {
     margin: 10px 0;
@@ -227,9 +213,7 @@ input:focus {
     from { width: 0; }
 }
 
-/* =========================
-   FOOTER
-========================= */
+/* footer */
 
 footer {
     text-align: center;
@@ -254,4 +238,31 @@ footer {
 
 .card:hover::after {
     opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .card {
+        padding: 15px;
+        transform: none !important;
+    }
+
+    .card img {
+        width: 120px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+    
+}
+
+@media (max-width: 600px) {
+    .modal-content {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .modal-content img {
+        width: 150px;
+    }
 }
