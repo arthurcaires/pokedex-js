@@ -4,7 +4,6 @@ body {
     background: linear-gradient(-45deg, #1d2b64, #f8cdda, #1d2b64);
     background-size: 400% 400%;
     animation: gradientBG 12s ease infinite;
-    color: white;
 }
 
 @keyframes gradientBG {
@@ -57,7 +56,7 @@ input:focus {
     position: relative;
     overflow: hidden;
 
-    background: rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.08);
     backdrop-filter: blur(12px);
 
     border-radius: 20px;
@@ -265,4 +264,24 @@ footer {
     .modal-content img {
         width: 150px;
     }
+}
+
+.loading {
+    text-align: center;
+    margin-top: 60px;
+    color: white;
+}
+
+.spinner {
+  width: 45px;
+  height: 45px;
+  border: 4px solid rgba(255,255,255,0.2);
+  border-top: 4px solid #ff3c00;
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

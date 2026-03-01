@@ -11,6 +11,7 @@ const modalNumber = document.getElementById("modalNumber");
 const modalType = document.getElementById("modalType");
 const closeModal = document.getElementById("closeModal");
 const modalContent = document.querySelector(".modal-content");
+document.getElementById("loading").style.display = "none"
 
 // profundidade 3d
 
@@ -32,12 +33,21 @@ modalContent.addEventListener("mouseleave", () => {
 
 
 async function init() {
-    const pokemons = await fetchAllPokemon();
+  const cached = localStorage.getItem("pokemonData");
 
-    pokemons.forEach(pokemon => {
-        createCard(pokemon, pokemonList, showDetails);
-    });
+  if (cached) {
+    const data = JSON.parse(cached);
+    renderPokemon(data);
+    document.getElementById("loading").style.display = "none";
+  } else {
+    const data = await fetchPokemon();
+    localStorage.setItem("pokemonData", JSON.stringify(data));
+    renderPokemon(data);
+    document.getElementById("loading").style.display = "none";
+  }
 }
+
+init();
 
 function showDetails(pokemon) {
 
@@ -87,4 +97,3 @@ modal.addEventListener("click", (e) => {
     }
 });
 
-init();
