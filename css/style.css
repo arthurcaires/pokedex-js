@@ -1,9 +1,13 @@
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    background: #0f172a;
+    background:
+        radial-gradient(circle at 20% 20%, #f97316, transparent 40%),
+        radial-gradient(circle at 80% 80%, #dc2626, transparent 40%),
+        #7c2d12;
     color: white;
-    overflow: hidden; /* remove scroll global */
+
+    overflow-x: hidden;
 }
 
 /* HEADER */
@@ -12,29 +16,28 @@ header {
     padding: 15px;
 }
 
-/* CONTAINER PC BOX */
+/* GRID ESTILO PC (5 LINHAS) */
 .pokemon-list {
     height: calc(100vh - 80px);
     padding: 20px;
 
     display: grid;
+    grid-template-rows: repeat(5, 110px);
     grid-auto-flow: column;
-    grid-template-rows: repeat(3, 110px);
     grid-auto-columns: 110px;
 
-    gap: 14px;
+    gap: 12px;
 
-    overflow-x: scroll;
+    overflow-x: auto;
     overflow-y: hidden;
 
     scroll-behavior: smooth;
 }
 
-/* REMOVE SCROLLBAR */
+/* Remove scrollbar */
 .pokemon-list::-webkit-scrollbar {
     display: none;
 }
-
 .pokemon-list {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -63,5 +66,40 @@ header {
 
 .card img {
     width: 72px;
-    height: 72px;
+}
+
+/* PAINEL LATERAL */
+.side-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 320px;
+    height: 100vh;
+
+    background: linear-gradient(180deg, #1e3a8a, #1e40af);
+    border-left: 4px solid #facc15;
+
+    padding: 20px;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.6);
+
+    transition: transform 0.4s ease;
+}
+
+.side-panel.hidden {
+    transform: translateX(100%);
+}
+
+.side-panel img {
+    width: 150px;
+}
+
+#closePanel {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 15px;
 }

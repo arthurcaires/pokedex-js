@@ -3,18 +3,50 @@ import { createCard } from "./ui.js";
 
 const pokemonList = document.getElementById("pokemonList");
 const loading = document.getElementById("loading");
+const closePanel = document.getElementById("closePanel");
+
+closePanel.addEventListener("click", () => {
+  sidePanel.classList.add("hidden");
+});
+
+const sidePanel = document.getElementById("sidePanel");
+const panelImage = document.getElementById("panelImage");
+const panelName = document.getElementById("panelName");
+const panelNumber = document.getElementById("panelNumber");
+const panelType = document.getElementById("panelType");
+const favoriteBtn = document.getElementById("favoriteBtn");
 
 let offset = 0;
 const limit = 30;
 let loadingMore = false;
 
 /* ============================= */
-/* CARREGAMENTO INICIAL */
+/* PAINEL LATERAL */
 /* ============================= */
 
-async function init() {
-  await loadMorePokemon();
-  loading.style.display = "none";
+function openSidePanel(pokemon) {
+  panelImage.src = pokemon.sprites.front_default;
+  panelName.textContent = pokemon.name.toUpperCase();
+  panelNumber.textContent = `#${pokemon.id}`;
+  panelType.textContent = pokemon.types.map(t => t.type.name).join(", ");
+
+  sidePanel.classList.remove("hidden");
+
+  favoriteBtn.onclick = () => toggleFavorite(pokemon);
+}
+
+function toggleFavorite(pokemon) {
+  let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+  const exists = favorites.find(p => p.id === pokemon.id);
+
+  if (exists) {
+    favorites = favorites.filter(p => p.id !== pokemon.id);
+  } else {
+    favorites.push({ id: pokemon.id, name: pokemon.name });
+  }
+
+  localStorage.setItem("favorites", JSON.stringify(favorites));
 }
 
 /* ============================= */
@@ -29,24 +61,22 @@ async function loadMorePokemon() {
     const data = await fetchAllPokemon(offset, limit);
 
     data.forEach(pokemon => {
-      createCard(pokemon, pokemonList);
+      createCard(pokemon, pokemonList, openSidePanel);
     });
 
     offset += limit;
 
   } catch (error) {
-    console.error("Erro ao carregar mais Pokémon:", error);
+    console.error("Erro ao carregar Pokémon:", error);
   }
 
   loadingMore = false;
 }
 
-/* Detecta quando chega perto do final */
-
 pokemonList.addEventListener("scroll", () => {
   const nearEnd =
-    pokemonList.scrollLeft + pokemonList.clientWidth >=
-    pokemonList.scrollWidth - 300;
+    pokemonList.scrollLeft >=
+    pokemonList.scrollWidth - pokemonList.clientWidth - 200;
 
   if (nearEnd) {
     loadMorePokemon();
@@ -79,5 +109,22 @@ document.addEventListener("mousemove", (e) => {
 });
 
 autoScroll();
+
+/* ============================= */
+/* INICIALIZAÇÃO */
+/* ============================= */
+
+async function init() {
+  await loadMorePokemon();
+  await loadMorePokemon(); // garante largura maior que a tela
+  loading.style.display = "none";
+}
+
+document.addEventListener("click", (e) => {
+  if (!sidePanel.contains(e.target) &&
+      !e.target.closest(".card")) {
+    sidePanel.classList.add("hidden");
+  }
+});
 
 init();
