@@ -16,17 +16,13 @@ const modalContent = document.querySelector(".modal-content");
 let allPokemon = [];
 
 async function init() {
-  const cached = localStorage.getItem("pokemonData");
-
-  if (cached) {
-    allPokemon = JSON.parse(cached);
-    renderPokemon(allPokemon);
-    loading.style.display = "none";
-  } else {
+  try {
     const data = await fetchAllPokemon();
-    localStorage.setItem("pokemonData", JSON.stringify(data));
     allPokemon = data;
     renderPokemon(allPokemon);
+  } catch (error) {
+    console.error("Erro ao carregar Pokémon:", error);
+  } finally {
     loading.style.display = "none";
   }
 }
