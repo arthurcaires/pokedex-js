@@ -1,138 +1,67 @@
-/* RESET */
-
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(-45deg, #1d2b64, #302b63, #24243e);
+    background: #0f172a;
     color: white;
-    overflow-x: hidden;
+    overflow: hidden; /* remove scroll global */
 }
 
 /* HEADER */
-
 header {
     text-align: center;
-    padding: 20px;
+    padding: 15px;
 }
 
-header h1 {
-    font-size: 2rem;
-    letter-spacing: 2px;
-}
-
-/* PC BOX HORIZONTAL */
-
+/* CONTAINER PC BOX */
 .pokemon-list {
-    display: flex;
-    gap: 16px;
-    overflow-x: auto;
+    height: calc(100vh - 80px);
+    padding: 20px;
+
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(3, 110px);
+    grid-auto-columns: 110px;
+
+    gap: 14px;
+
+    overflow-x: scroll;
     overflow-y: hidden;
-    padding: 40px 20px;
+
     scroll-behavior: smooth;
 }
 
+/* REMOVE SCROLLBAR */
 .pokemon-list::-webkit-scrollbar {
-    height: 8px;
+    display: none;
 }
 
-.pokemon-list::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.3);
-    border-radius: 10px;
+.pokemon-list {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
-/* CARD BASE (PEQUENO) */
-
+/* CARD */
 .card {
-    min-width: 90px;
-    height: 90px;
-    border-radius: 18px;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(12px);
+    width: 100px;
+    height: 100px;
+
+    border-radius: 14px;
+    background: #1e293b;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     cursor: pointer;
-    transition: all 0.4s ease;
-
-    position: relative;
-    overflow: hidden;
-
-    border: 1px solid rgba(255,255,255,0.15);
+    transition: 0.2s;
 }
 
-.card img {
-    width: 70px;
-    height: 70px;
-    transition: 0.3s;
-}
-
-/* EXPANSÃO */
-
-.card.expanded {
-    min-width: 280px;
-    height: 180px;
-
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-
-    padding: 20px;
-
-    background: rgba(255,255,255,0.15);
+.card:hover {
+    background: #334155;
     transform: scale(1.05);
 }
 
-.card.expanded img {
-    width: 90px;
-    height: 90px;
-}
-
-/* INFO (SÓ APARECE EXPANDIDO) */
-
-.info {
-    display: none;
-    margin-top: 10px;
-}
-
-.card.expanded .info {
-    display: block;
-}
-
-.info h3 {
-    margin: 5px 0;
-}
-
-.info p {
-    margin: 2px 0;
-    font-size: 14px;
-    opacity: 0.8;
-}
-
-/* HOVER */
-
-.card:hover {
-    transform: scale(1.08);
-}
-
-/* LOADING */
-
-.loading {
-    text-align: center;
-    margin-top: 60px;
-}
-
-/* RESPONSIVO */
-
-@media (max-width: 768px) {
-    .card {
-        min-width: 80px;
-        height: 80px;
-    }
-
-    .card.expanded {
-        min-width: 240px;
-        height: 160px;
-    }
+.card img {
+    width: 72px;
+    height: 72px;
 }

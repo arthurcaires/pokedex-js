@@ -1,12 +1,20 @@
-export async function fetchAllPokemon(limit = 151) {
-    const promises = [];
+// api.js
 
-    for (let i = 1; i <= limit; i++) {
-        promises.push(
-            fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
-                .then(res => res.json())
-        );
-    }
+export async function fetchAllPokemon(offset = 0, limit = 30) {
+  const promises = [];
 
-    return Promise.all(promises);
+  const start = offset + 1;
+  const end = offset + limit;
+
+  for (let i = start; i <= end; i++) {
+    promises.push(
+      fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
+        .then(res => {
+          if (!res.ok) throw new Error("Erro ao buscar Pokémon");
+          return res.json();
+        })
+    );
+  }
+
+  return Promise.all(promises);
 }

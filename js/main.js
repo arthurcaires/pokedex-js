@@ -4,92 +4,80 @@ import { createCard } from "./ui.js";
 const pokemonList = document.getElementById("pokemonList");
 const loading = document.getElementById("loading");
 
-// Modal elementos
-const modal = document.getElementById("modal");
-const modalName = document.getElementById("modalName");
-const modalImage = document.getElementById("modalImage");
-const modalNumber = document.getElementById("modalNumber");
-const modalType = document.getElementById("modalType");
-const closeModal = document.getElementById("closeModal");
-const modalContent = document.querySelector(".modal-content");
+let offset = 0;
+const limit = 30;
+let loadingMore = false;
 
-let allPokemon = [];
+/* ============================= */
+/* CARREGAMENTO INICIAL */
+/* ============================= */
 
 async function init() {
+  await loadMorePokemon();
+  loading.style.display = "none";
+}
+
+/* ============================= */
+/* LOAD INFINITO */
+/* ============================= */
+
+async function loadMorePokemon() {
+  if (loadingMore) return;
+  loadingMore = true;
+
   try {
-    const data = await fetchAllPokemon();
-    allPokemon = data;
-    renderPokemon(allPokemon);
+    const data = await fetchAllPokemon(offset, limit);
+
+    data.forEach(pokemon => {
+      createCard(pokemon, pokemonList);
+    });
+
+    offset += limit;
+
   } catch (error) {
-    console.error("Erro ao carregar Pokémon:", error);
-  } finally {
-    loading.style.display = "none";
+    console.error("Erro ao carregar mais Pokémon:", error);
   }
+
+  loadingMore = false;
 }
 
-function renderPokemon(pokemons) {
-  pokemonList.innerHTML = "";
-  pokemons.forEach(pokemon => {
-    createCard(pokemon, pokemonList, showDetails);
-  });
-}
+/* Detecta quando chega perto do final */
 
-function showDetails(pokemon) {
-  modalName.textContent =
-    pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+pokemonList.addEventListener("scroll", () => {
+  const nearEnd =
+    pokemonList.scrollLeft + pokemonList.clientWidth >=
+    pokemonList.scrollWidth - 300;
 
-  modalImage.src = pokemon.sprites.front_default;
-  modalNumber.textContent = `#${pokemon.id}`;
-  modalType.textContent = pokemon.types
-    .map(t => t.type.name)
-    .join(", ");
-
-  // remover stats antigas
-  const oldStats = document.querySelectorAll(".stat");
-  oldStats.forEach(stat => stat.remove());
-
-  const statsHTML = pokemon.stats.map(stat => {
-    const value = stat.base_stat;
-    return `
-      <div class="stat">
-        <span>${stat.stat.name.toUpperCase()} (${value})</span>
-        <div class="bar">
-          <div class="fill" style="width: ${value}%"></div>
-        </div>
-      </div>
-    `;
-  }).join("");
-
-  modalType.insertAdjacentHTML("afterend", statsHTML);
-
-  modal.classList.remove("hidden");
-}
-
-closeModal.addEventListener("click", () => {
-  modal.classList.add("hidden");
-});
-
-modal.addEventListener("click", (e) => {
-  if (e.target === modal) {
-    modal.classList.add("hidden");
+  if (nearEnd) {
+    loadMorePokemon();
   }
 });
 
-// efeito 3D modal
-modalContent.addEventListener("mousemove", (e) => {
-  const rect = modalContent.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
+/* ============================= */
+/* AUTO SCROLL ESTILO GAME */
+/* ============================= */
 
-  const rotateX = ((y - rect.height / 2) / rect.height) * 8;
-  const rotateY = ((x - rect.width / 2) / rect.width) * 8;
+let scrollDirection = 0;
+const scrollSpeed = 5;
+const edgeSize = 120;
 
-  modalContent.style.transform =
-    `rotateX(${-rotateX}deg) rotateY(${rotateY}deg)`;
+function autoScroll() {
+  if (scrollDirection !== 0) {
+    pokemonList.scrollLeft += scrollDirection * scrollSpeed;
+  }
+  requestAnimationFrame(autoScroll);
+}
+
+document.addEventListener("mousemove", (e) => {
+  if (e.clientX > window.innerWidth - edgeSize) {
+    scrollDirection = 1;
+  } else if (e.clientX < edgeSize) {
+    scrollDirection = -1;
+  } else {
+    scrollDirection = 0;
+  }
 });
 
-modalContent.addEventListener("mouseleave", () => {
-  modalContent.style.transform = "rotateX(0) rotateY(0)";
-});
+autoScroll();
 
 init();
