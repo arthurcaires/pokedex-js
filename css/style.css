@@ -45,6 +45,9 @@ header {
 
 /* CARD */
 .card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     width: 100px;
     height: 100px;
 
@@ -56,16 +59,60 @@ header {
     justify-content: center;
 
     cursor: pointer;
-    transition: 0.2s;
+    transition: transform 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    inset: -55%;
+    background: linear-gradient(
+        115deg,
+        transparent 32%,
+        rgba(255, 255, 255, 0.12) 45%,
+        rgba(255, 255, 255, 0.7) 50%,
+        rgba(255, 255, 255, 0.12) 55%,
+        transparent 68%
+    );
+    transform: translateX(-140%) rotate(12deg);
+    transition: transform 0.55s ease;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at 50% 120%, rgba(56, 189, 248, 0.28), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.22s ease;
+    z-index: 0;
+    pointer-events: none;
 }
 
 .card:hover {
     background: #334155;
-    transform: scale(1.05);
+    transform: translateY(-2px) scale(1.06);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.16) inset,
+        0 0 20px rgba(250, 204, 21, 0.42),
+        0 0 42px rgba(56, 189, 248, 0.28);
+}
+
+.card:hover::before {
+    transform: translateX(140%) rotate(12deg);
+}
+
+.card:hover::after {
+    opacity: 1;
 }
 
 .card img {
     width: 72px;
+    position: relative;
+    z-index: 1;
 }
 
 /* PAINEL LATERAL */
